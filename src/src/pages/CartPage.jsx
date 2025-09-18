@@ -67,8 +67,7 @@ export default function CartPage() {
     animation: "bounce 2s infinite",
     filter: "drop-shadow(0 0 12px rgba(13,110,253,0.4))",
   }}
-/>
-    
+/>  
 
           <h4 className="text-muted mb-2">Your cart is empty</h4>
           <p className="text-secondary mb-3">
