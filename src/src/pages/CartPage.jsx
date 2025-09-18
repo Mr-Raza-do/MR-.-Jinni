@@ -1,6 +1,8 @@
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import empImg from "../assets/emp.png"; // path adjust karo apne folder structure ke hisaab se
+
 
 export default function CartPage() {
   const { cart, removeFromCart, increaseQty, decreaseQty, totalPrice } =
