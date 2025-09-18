@@ -1,0 +1,109 @@
+/* sparkle emoji blink */
+.sparkle {
+  animation: sparkle-blink 1s infinite alternate;
+}
+
+@keyframes sparkle-blink {
+  from { opacity: 0.4; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1.2); }
+}
+
+/* active item style */
+.sparkle-active {
+  font-weight: bold;
+  border-left: 4px solid gold !important;
+  background: linear-gradient(to right, #f8fbff, #ffffff);
+  color: #007bff !important;   /* thoda blue highlight */
+  text-shadow: 0 0 5px rgba(0, 123, 255, 0.6), 
+               0 0 10px rgba(0, 123, 255, 0.4); /* glow effect */
+  transition: all 0.3s ease;
+}
+/* 🔄 Bounce animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 2s infinite ease-in-out;
+}
+/* glowing underline */
+.glow-underline {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #0d6efd, #6610f2, #0dcaf0);
+  box-shadow: 0 0 12px rgba(13,110,253,0.7);
+  animation: glowline 3s infinite alternate;
+}
+
+@keyframes glowline {
+  0% {
+    width: 40%;
+    opacity: 0.6;
+  }
+  100% {
+    width: 70%;
+    opacity: 1;
+  }
+}
+
+/* ✨ sparkles effect */
+.magic-title::before,
+.magic-title::after {
+  content: "✨";
+  position: absolute;
+  font-size: 1.5rem;
+  animation: sparkle 2s infinite;
+}
+
+.magic-title::before {
+  top: -10px;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.magic-title::after {
+  top: -15px;
+  right: 20%;
+  animation-delay: 1s;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.8) rotate(0deg);
+    filter: drop-shadow(0 0 4px #0dcaf0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3) rotate(15deg);
+    filter: drop-shadow(0 0 10px #6610f2);
+  }
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 992px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr); /* Tablet */
+  }
+}
+
+@media (max-width: 576px) {
+  .product-grid {
+    grid-template-columns: 1fr; /* Mobile */
+  }
+}
