@@ -14,7 +14,7 @@ import { CartProvider } from "./src/context/CartContext";
 import Checkout from "./src/pages/Checkout";
 import OrderConfirmation from "./src/pages/OrderConfirmation";
 import MyOrders from "./src/pages/MyOrders";
-import Sidebar from './src/components/Navbar';
+import CategoriesNav from './src/components/Navbar';
 import Signup from "./src/pages/Signup";
 import Login from "./src/pages/Login";
 import Contact from "./src/pages/Contact";
@@ -36,34 +36,33 @@ function App() {
       <AuthProvider>
         <WishlistProvider> {/* ✅ Wrap with WishlistProvider */}
           <BrowserRouter>
-            <Header onSearch={setSearchQuery} />
+           {/* Header */}
+<Header onSearch={setSearchQuery} />
 
-            <div className="d-flex" style={{ minHeight: "calc(100vh - 120px)" }}>
-              <Sidebar />
-              <div className="flex-grow-1 p-4">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route
-                    path="/catalog/*"
-                    element={<Catalog searchQuery={searchQuery} />}
-                  />
+{/* ✅ Amazon-style CategoriesNav just below Header */}
+<CategoriesNav />
 
-                  <Route path="/cart" element={<CartPage />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                  <Route path="/order-confirmation" element={<OrderConfirmation />} />
-                  <Route path="/my-orders" element={<MyOrders />} />
-                  <Route path="/wishlist" element={<Wishlist />} /> {/* ✅ New route */}
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="*" element={<NotFound />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/privacy" element={<Privacy />} />
-                  <Route path="/about" element={<About />} /> 
-
-                </Routes>
-              </div>
-            </div>
-
+{/* ✅ Main Content (no d-flex, no flex-grow-1) */}
+<div className="p-4" style={{ minHeight: "calc(100vh - 120px)" }}>
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route
+      path="/catalog/*"
+      element={<Catalog searchQuery={searchQuery} />}
+    />
+    <Route path="/cart" element={<CartPage />} />
+    <Route path="/checkout" element={<Checkout />} />
+    <Route path="/order-confirmation" element={<OrderConfirmation />} />
+    <Route path="/my-orders" element={<MyOrders />} />
+    <Route path="/wishlist" element={<Wishlist />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/signup" element={<Signup />} />
+    <Route path="/contact" element={<Contact />} />
+    <Route path="/privacy" element={<Privacy />} />
+    <Route path="/about" element={<About />} />
+    <Route path="*" element={<NotFound />} />
+  </Routes>
+</div>
             <Footer />
           </BrowserRouter>
         </WishlistProvider>

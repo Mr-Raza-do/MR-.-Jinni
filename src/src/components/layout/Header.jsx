@@ -59,14 +59,12 @@ export default function Header({ onSearch }) {
 
   return (
     <>
-      {/* Animations */}
       <style>
         {`
         .nav-link {
           position: relative;
           transition: color 0.3s ease;
         }
-
         .nav-link::after {
           content: "";
           position: absolute;
@@ -77,22 +75,15 @@ export default function Header({ onSearch }) {
           background: #ffcc00;
           transition: width 0.3s ease;
         }
-
         .nav-link:hover {
           color: #ffcc00 !important;
         }
-
         .nav-link:hover::after {
           width: 100%;
         }
-
         @keyframes float {0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-        @keyframes bounce {0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-        @keyframes expand {0%{width:0;opacity:0}100%{width:220px;opacity:1}}
-        @keyframes pulse {0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
-        @keyframes glow {0%{box-shadow:0 0 5px rgba(255,204,0,.5)}50%{box-shadow:0 0 20px rgba(255,204,0,.8)}100%{box-shadow:0 0 5px rgba(255,204,0,.5)}}
         @keyframes shimmer {0%{background-position:-200% 0}100%{background-position:200% 0}}
-        @keyframes doorOpen {0%{transform:perspective(800px) rotateY(90deg);opacity:0}100%{transform:perspective(800px) rotateY(0);opacity:1}}
+        @keyframes pulse {0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
         `}
       </style>
 
@@ -109,10 +100,10 @@ export default function Header({ onSearch }) {
           padding: isScrolled ? "0.4rem 0" : "0.8rem 0",
         }}
       >
-        <div className="container-fluid px-3">
+        <div className="container-fluid px-3 d-flex align-items-center">
           {/* Logo */}
           <Link
-            className="navbar-brand fw-bold fs-3 d-flex align-items-center ms-5"
+            className="navbar-brand fw-bold fs-3 d-flex align-items-center ms-2"
             to="/"
             onClick={handleCollapse}
             style={{
@@ -139,6 +130,34 @@ export default function Header({ onSearch }) {
             MR . Jinni
           </Link>
 
+          {/* ✅ Search (always visible, responsive) */}
+          <form className="d-flex ms-auto me-3" onSubmit={handleSubmit}>
+            {!searchActive ? (
+              <i
+                className="bi bi-search fs-5 text-white"
+                style={{ cursor: "pointer" }}
+                onClick={handleSearchClick}
+              ></i>
+            ) : (
+              <input
+                ref={searchInputRef}
+                type="search"
+                placeholder="Search..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                style={{
+                  maxWidth: "200px",
+                  borderRadius: "20px",
+                  background: "rgba(255,255,255,0.15)",
+                  color: "white",
+                  border: "1px solid rgba(255,255,255,0.3)",
+                  padding: "0.4rem 1rem",
+                  fontSize: "14px",
+                }}
+              />
+            )}
+          </form>
+
           {/* Mobile Toggle */}
           <button
             className="navbar-toggler"
@@ -159,7 +178,6 @@ export default function Header({ onSearch }) {
               className="navbar-nav ms-auto align-items-lg-center"
               style={{ gap: "0.5rem" }}
             >
-              {/* Home */}
               <li className="nav-item">
                 <Link
                   className="nav-link text-white fw-medium"
@@ -170,7 +188,6 @@ export default function Header({ onSearch }) {
                 </Link>
               </li>
 
-              {/* Collection */}
               <li className="nav-item">
                 <Link
                   className="nav-link text-white fw-medium"
@@ -181,7 +198,6 @@ export default function Header({ onSearch }) {
                 </Link>
               </li>
 
-              {/* My Orders */}
               {user && (
                 <li className="nav-item">
                   <Link
@@ -194,36 +210,6 @@ export default function Header({ onSearch }) {
                 </li>
               )}
 
-              {/* Search */}
-              <li className="nav-item">
-                <form className="d-flex" onSubmit={handleSubmit}>
-                  {!searchActive ? (
-                    <i
-                      className="bi bi-search fs-5 text-white"
-                      style={{ cursor: "pointer" }}
-                      onClick={handleSearchClick}
-                    ></i>
-                  ) : (
-                    <input
-                      ref={searchInputRef}
-                      type="search"
-                      placeholder="Search..."
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                      style={{
-                        maxWidth: "200px",
-                        borderRadius: "20px",
-                        background: "rgba(255,255,255,0.15)",
-                        color: "white",
-                        border: "1px solid rgba(255,255,255,0.3)",
-                        padding: "0.4rem 1rem",
-                      }}
-                    />
-                  )}
-                </form>
-              </li>
-
-              {/* Cart */}
               <li className="nav-item position-relative">
                 <Link
                   className="nav-link text-white"
@@ -239,7 +225,6 @@ export default function Header({ onSearch }) {
                 </Link>
               </li>
 
-              {/* Wishlist */}
               <li className="nav-item position-relative">
                 <Link
                   className="nav-link text-white"
@@ -255,7 +240,6 @@ export default function Header({ onSearch }) {
                 </Link>
               </li>
 
-              {/* User Section */}
               <li className="nav-item">
                 {user ? (
                   <button
