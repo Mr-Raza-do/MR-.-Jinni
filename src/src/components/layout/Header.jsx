@@ -49,7 +49,7 @@ export default function Header({ onSearch }) {
     return () => clearTimeout(collapseTimer.current);
   }, [searchActive, query]);
 
-  // ✅ Navbar auto collapse on link click
+  // Navbar auto collapse on link click
   const handleCollapse = () => {
     const nav = document.getElementById("navbarNav");
     if (nav && nav.classList.contains("show")) {
@@ -114,6 +114,7 @@ export default function Header({ onSearch }) {
               textShadow: "0px 0px 8px rgba(255,255,255,0.6)",
               animation: "shimmer 3s infinite linear, pulse 2s infinite",
               marginRight: "1rem",
+              marginLeft: "30px", // shifted 30px right
             }}
           >
             <img
@@ -130,8 +131,8 @@ export default function Header({ onSearch }) {
             MR . Jinni
           </Link>
 
-          {/* ✅ Search (always visible, responsive) */}
-          <form className="d-flex ms-auto me-3" onSubmit={handleSubmit}>
+          {/* Search */}
+          <form className="d-flex ms-auto me-3" onSubmit={handleSubmit} style={{ marginRight: "30px" }}>
             {!searchActive ? (
               <i
                 className="bi bi-search fs-5 text-white"
