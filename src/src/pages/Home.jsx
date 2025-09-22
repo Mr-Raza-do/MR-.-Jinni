@@ -14,36 +14,39 @@ export default function Home() {
     { id: 106, name: "Headphones", price: 2000, image: "/images/headphones.jpeg" }
   ];
 
-  // Customer testimonials data
   const testimonials = [
     {
       id: 1,
       name: "Rahul Sharma",
       rating: 5,
-      comment: "The smartphone I bought exceeded my expectations! The delivery was super fast and the product quality is outstanding.",
-      image: "/images/customer1.jpg"
+      comment:
+        "The smartphone I bought exceeded my expectations! The delivery was super fast and the product quality is outstanding.",
+      image: "/images/customer1.jpg",
     },
     {
       id: 2,
       name: "Priya Patel",
       rating: 4,
-      comment: "Great shopping experience! The wireless earbuds are amazing with crystal clear sound quality. Will definitely shop again.",
-      image: "/images/customer2.jpg"
+      comment:
+        "Great shopping experience! The wireless earbuds are amazing with crystal clear sound quality. Will definitely shop again.",
+      image: "/images/customer2.jpg",
     },
     {
       id: 3,
       name: "Amit Kumar",
       rating: 5,
-      comment: "This is my go-to store for all electronics. Their customer service is exceptional and products are always genuine.",
-      image: "/images/customer3.jpg"
+      comment:
+        "This is my go-to store for all electronics. Their customer service is exceptional and products are always genuine.",
+      image: "/images/customer3.jpg",
     },
     {
       id: 4,
       name: "Neha Singh",
       rating: 5,
-      comment: "The deals section has amazing offers! I got my smartwatch at a 30% discount. Highly recommended!",
-      image: "/images/customer4.jpg"
-    }
+      comment:
+        "The deals section has amazing offers! I got my smartwatch at a 30% discount. Highly recommended!",
+      image: "/images/customer4.jpg",
+    },
   ];
 
   return (
@@ -55,13 +58,14 @@ export default function Home() {
         data-bs-ride="carousel"
         data-bs-interval="4000"
         style={{
-          height: "90vh",
+          height: "60vh",
           maxHeight: "90vh",
           overflow: "hidden",
           borderRadius: "20px",
-          boxShadow: "0 8px 25px rgba(0,0,0,0.2)"
+          boxShadow: "0 8px 25px rgba(0,0,0,0.2)",
         }}
       >
+        {/* Indicators */}
         <div className="carousel-indicators">
           {[0, 1, 2, 3, 4].map((i) => (
             <button
@@ -74,6 +78,7 @@ export default function Home() {
           ))}
         </div>
 
+        {/* Slides */}
         <div className="carousel-inner h-100">
           {[
             "/images/Fossil Gen 6.jpeg",
@@ -84,7 +89,9 @@ export default function Home() {
           ].map((img, idx) => (
             <div
               key={idx}
-              className={`carousel-item h-100 position-relative ${idx === 0 ? "active" : ""}`}
+              className={`carousel-item h-100 position-relative ${
+                idx === 0 ? "active" : ""
+              }`}
               onMouseEnter={() => setHoverIndex(idx)}
               onMouseLeave={() => setHoverIndex(null)}
             >
@@ -95,7 +102,6 @@ export default function Home() {
                 style={{
                   width: "100%",
                   height: "100%",
-                  maxHeight: "90vh",
                   objectFit: "cover",
                   borderRadius: "20px",
                 }}
@@ -109,15 +115,16 @@ export default function Home() {
                   style={{
                     background: "linear-gradient(45deg, #0d47a1, #1976d2)",
                     color: "white",
-                    padding: "10px 25px",
+                    padding: "8px 20px",
                     borderRadius: "50px",
                     fontWeight: "600",
-                    fontSize: "clamp(14px, 2vw, 18px)", // responsive font size
+                    fontSize: "clamp(12px, 2vw, 18px)", // ✅ font size responsive
                     boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
                     letterSpacing: "1px",
                     transition: "all 0.4s ease",
                     opacity: hoverIndex === idx ? 1 : 0,
-                    transform: hoverIndex === idx ? "translateX(0)" : "translateX(-40px)",
+                    transform:
+                      hoverIndex === idx ? "translateX(0)" : "translateX(-40px)",
                     pointerEvents: hoverIndex === idx ? "auto" : "none",
                   }}
                 >
@@ -128,21 +135,21 @@ export default function Home() {
           ))}
         </div>
       </div>
-         
+
       {/* ✅ Featured Products */}
       <section className="mb-5 px-3 px-md-5">
         <h2
           className="mb-4 text-center text-md-start fw-bold"
           style={{
             color: "#2c3e50",
-            fontSize: "clamp(20px, 3vw, 28px)" // responsive title
+            fontSize: "clamp(20px, 3vw, 28px)",
           }}
         >
           Featured Products
         </h2>
         <div className="row g-4">
           {featured.map((p) => (
-            <div key={p.id} className="col-12 col-sm-6 col-lg-4">
+            <div key={p.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
               <ProductCard product={p} />
             </div>
           ))}
@@ -155,15 +162,15 @@ export default function Home() {
           className="mb-4 text-center fw-bold"
           style={{
             color: "#2c3e50",
-            fontSize: "clamp(20px, 3vw, 28px)"
+            fontSize: "clamp(20px, 3vw, 28px)",
           }}
         >
           What Our Customers Say
         </h2>
         <div className="row g-4">
           {testimonials.map((testimonial) => (
-            <div key={testimonial.id} className="col-12 col-md-6 col-lg-3">
-              <div 
+            <div key={testimonial.id} className="col-12 col-sm-6 col-lg-3">
+              <div
                 className="card h-100 border-0 shadow-sm p-3"
                 style={{ borderRadius: "15px" }}
               >
@@ -173,21 +180,27 @@ export default function Home() {
                     {[...Array(5)].map((_, i) => (
                       <i
                         key={i}
-                        className={`bi bi-star${i < testimonial.rating ? "-fill" : ""} text-warning me-1`}
+                        className={`bi bi-star${
+                          i < testimonial.rating ? "-fill" : ""
+                        } text-warning me-1`}
                       ></i>
                     ))}
                   </div>
-                  
+
                   {/* Comment */}
                   <p className="card-text flex-grow-1 fst-italic text-muted">
                     "{testimonial.comment}"
                   </p>
-                  
+
                   {/* Customer Info */}
                   <div className="d-flex align-items-center mt-3">
-                    <div 
+                    <div
                       className="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3"
-                      style={{ width: "50px", height: "50px", overflow: "hidden" }}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        overflow: "hidden",
+                      }}
                     >
                       <i className="bi bi-person-fill text-white fs-4"></i>
                     </div>
@@ -224,7 +237,10 @@ export default function Home() {
           <Link
             to="/deals"
             className="btn btn-light btn-lg px-4 fw-bold"
-            style={{ borderRadius: "30px", fontSize: "clamp(14px, 2vw, 18px)" }}
+            style={{
+              borderRadius: "30px",
+              fontSize: "clamp(14px, 2vw, 18px)",
+            }}
           >
             View Deals
           </Link>

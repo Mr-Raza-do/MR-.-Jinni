@@ -32,7 +32,7 @@ function OrderConfirmation() {
       className="container d-flex align-items-center justify-content-center py-5"
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #dbeafe, #ede9fe)", // 🌈 soft magical bg
+        background: "linear-gradient(135deg, #dbeafe, #ede9fe)",
       }}
     >
       <div
@@ -40,9 +40,9 @@ function OrderConfirmation() {
         style={{
           borderRadius: "20px",
           maxWidth: "700px",
-          width: "100%",
+          width: "95%", // ✅ mobile-friendly
           background: "white",
-          boxShadow: "0 0 25px rgba(99, 102, 241, 0.4)", // glowing effect
+          boxShadow: "0 0 25px rgba(99, 102, 241, 0.4)",
         }}
       >
         {/* ✅ Heading */}
@@ -87,13 +87,32 @@ function OrderConfirmation() {
             </li>
             <li className="list-group-item">
               <b>Total:</b>{" "}
-              <span className="fw-bold text-primary">Rs. {order.total}</span>
+              <span className="fw-bold text-primary">
+                Rs. {parseFloat(order.total).toFixed(2)}
+              </span>
             </li>
           </ul>
         </div>
 
+        {/* ✅ Ordered Items List */}
+        {order.items && order.items.length > 0 && (
+          <div className="mt-4">
+            <h4 className="text-secondary fw-bold">🛍️ Items Ordered</h4>
+            <ul className="list-group list-group-flush my-2">
+              {order.items.map((item, index) => (
+                <li key={index} className="list-group-item d-flex justify-content-between">
+                  <span>
+                    {item.name} <small className="text-muted">x {item.qty}</small>
+                  </span>
+                  <span>Rs. {parseFloat(item.price).toFixed(2)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {/* ✅ Buttons */}
-        <div className="d-flex justify-content-center gap-3 mt-4">
+        <div className="d-flex flex-wrap justify-content-center gap-3 mt-4">
           <button
             className="btn btn-success px-4 shadow-sm"
             onClick={() => navigate("/")}

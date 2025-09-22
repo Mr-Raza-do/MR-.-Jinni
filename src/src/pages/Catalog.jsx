@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ProductCard from "../components/product/ProductCard";
 
-// ✅ normalize helper
 const normalize = (str) => {
   if (!str) return "";
   if (str.toLowerCase() === "all") return "all";
@@ -110,8 +109,8 @@ export default function Catalog({ searchQuery }) {
           className="product-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)", // 3 cards per row
             gap: "20px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
           }}
         >
           {filteredProducts.map((p) => (

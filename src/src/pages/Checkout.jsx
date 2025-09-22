@@ -1,15 +1,15 @@
 import React, { useState, useRef } from "react";
 import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext"; // ✅ AuthContext import
+import { useAuth } from "../context/AuthContext"; 
 import { useNavigate } from "react-router-dom";
 
 function Checkout() {
   const { cart, clearCart, increaseQty, decreaseQty } = useCart();
-  const { user, login } = useAuth(); // ✅ current logged in user
+  const { user, login } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: user?.name || "",   // agar login user hai to auto fill
+    name: user?.name || "",
     email: user?.email || "",
     address: "",
     payment: "cod",
@@ -17,6 +17,7 @@ function Checkout() {
 
   const emailRef = useRef(null);
   const addressRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,7 +42,6 @@ function Checkout() {
       0
     );
 
-    // ✅ New Order
     const newOrder = {
       id: Date.now(),
       name: formData.name,
@@ -53,30 +53,25 @@ function Checkout() {
       date: new Date().toLocaleString(),
     };
 
-    // ✅ Users list fetch karo
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    // ✅ Current user update
     const updatedUser = {
       ...user,
       orders: [...(user.orders || []), newOrder],
     };
 
-    // ✅ Users array me replace
-    users = users.map((u) =>
-      u.email === user.email ? updatedUser : u
-    );
-
-    // ✅ Save
+    users = users.map((u) => (u.email === user.email ? updatedUser : u));
     localStorage.setItem("users", JSON.stringify(users));
 
-    // ✅ AuthContext update
-    login(updatedUser);
+    login(updatedUser); // ✅ AuthContext update
+    clearCart();        // ✅ Empty cart
+    setFormData({       // ✅ Reset form
+      name: updatedUser.name,
+      email: updatedUser.email,
+      address: "",
+      payment: "cod",
+    });
 
-    // ✅ Cart clear
-    clearCart();
-
-    // ✅ Redirect
     navigate("/order-confirmation", { state: newOrder });
   };
 
@@ -88,7 +83,7 @@ function Checkout() {
   const handleKeyDown = (e, nextRef) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (nextRef && nextRef.current) {
+      if (nextRef?.current) {
         nextRef.current.focus();
       }
     }
@@ -148,6 +143,7 @@ function Checkout() {
                 placeholder="123 Street, City"
                 value={formData.address}
                 onChange={handleChange}
+                onKeyDown={(e) => handleKeyDown(e, buttonRef)}
                 ref={addressRef}
                 required
               />
@@ -161,7 +157,11 @@ function Checkout() {
               </span>
             </div>
 
-            <button type="submit" className="btn btn-primary w-100 mt-3">
+            <button
+              ref={buttonRef}
+              type="submit"
+              className="btn btn-primary w-100 mt-3"
+            >
               Place Order →
             </button>
 
@@ -189,17 +189,13 @@ function Checkout() {
                       >
                         <span>{item.name}</span>
                         <div className="d-flex align-items-center gap-2">
-                          {/* - Button */}
                           <button
                             onClick={() => decreaseQty(item.id)}
                             className="btn btn-sm btn-outline-danger rounded-circle"
                           >
                             <i className="bi bi-dash-lg"></i>
                           </button>
-
                           <strong>{item.qty}</strong>
-
-                          {/* + Button */}
                           <button
                             onClick={() => increaseQty(item.id)}
                             className="btn btn-sm btn-outline-success rounded-circle"

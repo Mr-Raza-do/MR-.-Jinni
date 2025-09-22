@@ -19,11 +19,9 @@ export default function Header({ onSearch }) {
   const searchInputRef = useRef();
   const collapseTimer = useRef();
 
-  // Add scroll effect for navbar
+  // Navbar scroll effect
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -40,83 +38,83 @@ export default function Header({ onSearch }) {
 
   const handleSearchClick = () => {
     setSearchActive(true);
-    setTimeout(() => {
-      searchInputRef.current?.focus();
-    }, 0);
+    setTimeout(() => searchInputRef.current?.focus(), 0);
   };
 
-  // Auto-collapse search if empty for 10 seconds
+  // Auto collapse search
   useEffect(() => {
     if (searchActive && query === "") {
-      collapseTimer.current = setTimeout(() => {
-        setSearchActive(false);
-      }, 10000);
+      collapseTimer.current = setTimeout(() => setSearchActive(false), 5000);
     }
     return () => clearTimeout(collapseTimer.current);
   }, [searchActive, query]);
 
+  // ✅ Navbar auto collapse on link click
+  const handleCollapse = () => {
+    const nav = document.getElementById("navbarNav");
+    if (nav && nav.classList.contains("show")) {
+      new window.bootstrap.Collapse(nav).hide();
+    }
+  };
+
   return (
     <>
-      {/* Inline keyframes for animations */}
+      {/* Animations */}
       <style>
         {`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
-          }
+        .nav-link {
+          position: relative;
+          transition: color 0.3s ease;
+        }
 
-          @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-          }
+        .nav-link::after {
+          content: "";
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: #ffcc00;
+          transition: width 0.3s ease;
+        }
 
-          @keyframes expand {
-            0% { width: 0; opacity: 0; }
-            100% { width: 220px; opacity: 1; }
-          }
-          
-          @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-          }
-          
-          @keyframes glow {
-            0% { box-shadow: 0 0 5px rgba(255,204,0,0.5); }
-            50% { box-shadow: 0 0 20px rgba(255,204,0,0.8); }
-            100% { box-shadow: 0 0 5px rgba(255,204,0,0.5); }
-          }
-          
-          @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-          }
+        .nav-link:hover {
+          color: #ffcc00 !important;
+        }
 
-          @keyframes doorOpen {
-            0% { transform: perspective(800px) rotateY(90deg); opacity: 0; }
-            100% { transform: perspective(800px) rotateY(0deg); opacity: 1; }
-          }
+        .nav-link:hover::after {
+          width: 100%;
+        }
+
+        @keyframes float {0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        @keyframes bounce {0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+        @keyframes expand {0%{width:0;opacity:0}100%{width:220px;opacity:1}}
+        @keyframes pulse {0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+        @keyframes glow {0%{box-shadow:0 0 5px rgba(255,204,0,.5)}50%{box-shadow:0 0 20px rgba(255,204,0,.8)}100%{box-shadow:0 0 5px rgba(255,204,0,.5)}}
+        @keyframes shimmer {0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes doorOpen {0%{transform:perspective(800px) rotateY(90deg);opacity:0}100%{transform:perspective(800px) rotateY(0);opacity:1}}
         `}
       </style>
 
       <nav
         className="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top"
-        style={{ 
-          background: isScrolled 
-            ? "linear-gradient(90deg, #0d47a1, #1976d2, #0d47a1)" 
+        style={{
+          background: isScrolled
+            ? "linear-gradient(90deg, #0d47a1, #1976d2, #0d47a1)"
             : "linear-gradient(90deg, #0d47a1, #1976d2)",
           backgroundSize: isScrolled ? "200% auto" : "100%",
           transition: "all 0.3s ease",
           animation: isScrolled ? "shimmer 3s infinite linear" : "none",
           backdropFilter: isScrolled ? "blur(10px)" : "none",
-          padding: isScrolled ? "0.4rem 0" : "0.8rem 0"
+          padding: isScrolled ? "0.4rem 0" : "0.8rem 0",
         }}
       >
-        <div className="container">
-          {/* Logo with floating animation */}
+        <div className="container-fluid px-3">
+          {/* Logo */}
           <Link
-            className="navbar-brand fw-bold fs-3 d-flex align-items-center"
+            className="navbar-brand fw-bold fs-3 d-flex align-items-center ms-5"
             to="/"
+            onClick={handleCollapse}
             style={{
               background: "linear-gradient(90deg, #ffcc00, #ff4081, #ffcc00)",
               backgroundSize: "200% auto",
@@ -124,8 +122,7 @@ export default function Header({ onSearch }) {
               WebkitTextFillColor: "transparent",
               textShadow: "0px 0px 8px rgba(255,255,255,0.6)",
               animation: "shimmer 3s infinite linear, pulse 2s infinite",
-              transition: "all 0.3s ease",
-              marginRight: "1rem"
+              marginRight: "1rem",
             }}
           >
             <img
@@ -136,13 +133,13 @@ export default function Header({ onSearch }) {
                 height: "45px",
                 marginRight: "8px",
                 animation: "float 2s ease-in-out infinite",
-                filter: "drop-shadow(0 0 8px rgba(255, 204, 0, 0.7))"
+                filter: "drop-shadow(0 0 8px rgba(255, 204, 0, 0.7))",
               }}
             />
             MR . Jinni
           </Link>
 
-          {/* Mobile toggle with animation */}
+          {/* Mobile Toggle */}
           <button
             className="navbar-toggler"
             type="button"
@@ -151,121 +148,62 @@ export default function Header({ onSearch }) {
             aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
-            style={{
-              border: "1px solid rgba(255,255,255,0.3)",
-              animation: "pulse 2s infinite",
-              padding: "0.25rem 0.5rem"
-            }}
+            style={{ border: "1px solid rgba(255,255,255,0.3)" }}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          {/* Navbar links */}
+          {/* Links */}
           <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto align-items-lg-center" style={{ gap: "0.5rem" }}>
+            <ul
+              className="navbar-nav ms-auto align-items-lg-center"
+              style={{ gap: "0.5rem" }}
+            >
+              {/* Home */}
               <li className="nav-item">
-                <Link 
-                  className="nav-link fw-medium position-relative" 
+                <Link
+                  className="nav-link text-white fw-medium"
                   to="/"
-                  style={{
-                    color: "white",
-                    transition: "all 0.3s ease",
-                    padding: "0.4rem 0.6rem"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = "translateY(-2px)";
-                    e.target.style.textShadow = "0 0 10px rgba(255,255,255,0.8)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = "translateY(0)";
-                    e.target.style.textShadow = "none";
-                  }}
+                  onClick={handleCollapse}
                 >
-                  <span className="position-relative">
-                    Home
-                    <span className="position-absolute bottom-0 start-0 w-100 bg-warning" style={{ height: "2px", transform: "scaleX(0)", transition: "transform 0.3s ease" }}></span>
-                  </span>
+                  Home
                 </Link>
               </li>
+
+              {/* Collection */}
               <li className="nav-item">
-                <Link 
-                  className="nav-link fw-medium position-relative" 
+                <Link
+                  className="nav-link text-white fw-medium"
                   to="/catalog"
-                  style={{
-                    color: "white",
-                    transition: "all 0.3s ease",
-                    padding: "0.4rem 0.6rem"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = "translateY(-2px)";
-                    e.target.style.textShadow = "0 0 10px rgba(255,255,255,0.8)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = "translateY(0)";
-                    e.target.style.textShadow = "none";
-                  }}
+                  onClick={handleCollapse}
                 >
-                  <span className="position-relative">
-                    Collection
-                    <span className="position-absolute bottom-0 start-0 w-100 bg-warning" style={{ height: "2px", transform: "scaleX(0)", transition: "transform 0.3s ease" }}></span>
-                  </span>
+                  Collection
                 </Link>
               </li>
+
+              {/* My Orders */}
               {user && (
                 <li className="nav-item">
-                  <Link 
-                    className="nav-link fw-medium position-relative" 
+                  <Link
+                    className="nav-link text-white fw-medium"
                     to="/my-orders"
-                    style={{
-                      color: "white",
-                      transition: "all 0.3s ease",
-                      padding: "0.4rem 0.6rem"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.transform = "translateY(-2px)";
-                      e.target.style.textShadow = "0 0 10px rgba(255,255,255,0.8)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.transform = "translateY(0)";
-                      e.target.style.textShadow = "none";
-                    }}
+                    onClick={handleCollapse}
                   >
-                    <span className="position-relative">
-                      My Orders
-                      <span className="position-absolute bottom-0 start-0 w-100 bg-warning" style={{ height: "2px", transform: "scaleX(0)", transition: "transform 0.3s ease" }}></span>
-                    </span>
+                    My Orders
                   </Link>
                 </li>
               )}
 
               {/* Search */}
-              <li className="nav-item" style={{ margin: "0 0.3rem" }}>
-                <form
-                  className="d-flex position-relative"
-                  onSubmit={handleSubmit}
-                >
-                  {!searchActive && (
+              <li className="nav-item">
+                <form className="d-flex" onSubmit={handleSubmit}>
+                  {!searchActive ? (
                     <i
-                      className="bi bi-search fs-5"
-                      style={{ 
-                        cursor: "pointer", 
-                        color: "white",
-                        transition: "all 0.3s ease",
-                        textShadow: "0 0 8px rgba(255,255,255,0.5)",
-                        padding: "0.5rem"
-                      }}
+                      className="bi bi-search fs-5 text-white"
+                      style={{ cursor: "pointer" }}
                       onClick={handleSearchClick}
-                      onMouseEnter={(e) => {
-                        e.target.style.transform = "scale(1.2)";
-                        e.target.style.textShadow = "0 0 12px rgba(255,255,255,0.8)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.transform = "scale(1)";
-                        e.target.style.textShadow = "0 0 8px rgba(255,255,255,0.5)";
-                      }}
                     ></i>
-                  )}
-                  {searchActive && (
+                  ) : (
                     <input
                       ref={searchInputRef}
                       type="search"
@@ -274,22 +212,11 @@ export default function Header({ onSearch }) {
                       onChange={(e) => setQuery(e.target.value)}
                       style={{
                         maxWidth: "200px",
+                        borderRadius: "20px",
                         background: "rgba(255,255,255,0.15)",
                         color: "white",
                         border: "1px solid rgba(255,255,255,0.3)",
-                        borderRadius: "50px",
                         padding: "0.4rem 1rem",
-                        animation: "expand 0.3s forwards",
-                        transition: "all 0.3s ease",
-                        backdropFilter: "blur(5px)"
-                      }}
-                      onFocus={(e) => {
-                        e.target.style.background = "rgba(255,255,255,0.25)";
-                        e.target.style.boxShadow = "0 0 15px rgba(255,255,255,0.3)";
-                      }}
-                      onBlur={(e) => {
-                        e.target.style.background = "rgba(255,255,255,0.15)";
-                        e.target.style.boxShadow = "none";
                       }}
                     />
                   )}
@@ -297,36 +224,15 @@ export default function Header({ onSearch }) {
               </li>
 
               {/* Cart */}
-              <li className="nav-item position-relative" style={{ margin: "0 0.3rem" }}>
+              <li className="nav-item position-relative">
                 <Link
-                  className="nav-link d-flex align-items-center gap-1 fw-bold text-white"
+                  className="nav-link text-white"
                   to="/cart"
-                  style={{
-                    animation: totalItems > 0 ? "bounce 0.6s ease-in-out infinite" : "",
-                    transition: "all 0.3s ease",
-                    padding: "0.5rem"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.1)";
-                    e.currentTarget.style.textShadow = "0 0 10px rgba(255,255,255,0.8)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.textShadow = "none";
-                  }}
+                  onClick={handleCollapse}
                 >
                   <i className="bi bi-cart3 fs-5"></i>
                   {totalItems > 0 && (
-                    <span
-                      className="badge bg-warning text-dark rounded-pill position-absolute top-0 start-100 translate-middle d-flex align-items-center justify-content-center"
-                      style={{ 
-                        fontSize: "0.65rem",
-                        minWidth: "18px",
-                        height: "18px",
-                        animation: "pulse 1s infinite",
-                        boxShadow: "0 0 6px rgba(255,204,0,0.8)"
-                      }}
-                    >
+                    <span className="badge bg-warning text-dark position-absolute top-0 start-100 translate-middle rounded-pill">
                       {totalItems}
                     </span>
                   )}
@@ -334,158 +240,45 @@ export default function Header({ onSearch }) {
               </li>
 
               {/* Wishlist */}
-              <li className="nav-item position-relative" style={{ margin: "0 0.3rem" }}>
-                <Link 
-                  className="nav-link fw-medium text-white d-flex align-items-center" 
+              <li className="nav-item position-relative">
+                <Link
+                  className="nav-link text-white"
                   to="/wishlist"
-                  style={{
-                    transition: "all 0.3s ease",
-                    padding: "0.5rem"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "scale(1.1)";
-                    e.currentTarget.style.textShadow = "0 0 10px rgba(255,105,180,0.8)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.textShadow = "none";
-                  }}
+                  onClick={handleCollapse}
                 >
-                  <span 
-                    className="position-relative"
-                    style={{
-                      color: totalWishlist > 0 ? "#ff4081" : "white",
-                      transition: "all 0.3s ease"
-                    }}
-                  >
-                    ❤️{totalWishlist > 0 && " Wishlist"}
-                    {totalWishlist > 0 && (
-                      <span 
-                        className="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
-                        style={{
-                          fontSize: "5px",
-                          animation: "pulse 1.5s infinite"
-                        }}
-                      >
-                      </span>
-                    )}
-                  </span>
+                  <i className="bi bi-heart fs-5"></i>
+                  {totalWishlist > 0 && (
+                    <span className="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
+                      {totalWishlist}
+                    </span>
+                  )}
                 </Link>
               </li>
 
-              {/* User Section - Only show Exit/Door when logged in */}
-              <li className="nav-item" style={{ marginLeft: "0.5rem" }}>
+              {/* User Section */}
+              <li className="nav-item">
                 {user ? (
-                  <div className="d-flex align-items-center gap-2">
-                    {/* User welcome message with animation */}
-                    <span
-                      className="d-none d-md-block"
-                      style={{
-                        background: "linear-gradient(90deg, #ff6a00, #ee0979)",
-                        WebkitBackgroundClip: "text",
-                        WebkitTextFillColor: "transparent",
-                        fontWeight: "600",
-                        textShadow: "0 0 8px rgba(255,105,180,0.5)",
-                        animation: "doorOpen 0.8s ease-out",
-                        fontSize: "0.9rem",
-                        marginRight: "0.5rem"
-                      }}
-                    >
-                       {user.name}
-                    </span>
-                    
-                    {/* Exit/Door button */}
-                    <button
-                      onClick={handleLogout}
-                      className="d-flex align-items-center justify-content-center"
-                      style={{
-                        background: "linear-gradient(135deg, #ff4081 0%, #ff6a00 100%)",
-                        border: "none",
-                        color: "white",
-                        borderRadius: "50%",
-                        width: "42px",
-                        height: "42px",
-                        fontWeight: "600",
-                        boxShadow: "0 3px 8px rgba(0,0,0,0.2), 0 0 12px rgba(255,64,129,0.4)",
-                        cursor: "pointer",
-                        transition: "all 0.3s ease",
-                        animation: "doorOpen 0.8s ease-out",
-                        position: "relative",
-                        overflow: "hidden"
-                      }}
-                      onMouseOver={(e) => {
-                        e.currentTarget.style.transform = "scale(1.1) rotate(5deg)";
-                        e.currentTarget.style.boxShadow = "0 5px 12px rgba(0,0,0,0.3), 0 0 16px rgba(255,64,129,0.6)";
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.style.transform = "scale(1) rotate(0)";
-                        e.currentTarget.style.boxShadow = "0 3px 8px rgba(0,0,0,0.2), 0 0 12px rgba(255,64,129,0.4)";
-                      }}
-                      title="Exit"
-                    >
-                      <i className="bi bi-box-arrow-right"></i>
-                      <span style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-                        transform: "translateX(-100%)",
-                        transition: "transform 0.6s ease"
-                      }} 
-                      onMouseOver={(e) => {
-                        e.target.style.transform = "translateX(100%)";
-                      }}></span>
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      handleCollapse();
+                    }}
+                    className="btn btn-sm btn-danger ms-2"
+                  >
+                    Logout
+                  </button>
                 ) : (
                   <Link
                     to="/login"
-                    className="d-flex align-items-center"
+                    className="btn btn-sm ms-2"
+                    onClick={handleCollapse}
                     style={{
-                      background: "linear-gradient(135deg, #6a11cb 0%, #2575fc 50%, #6a11cb 100%)",
-                      backgroundSize: "200% auto",
+                      background: "linear-gradient(90deg, #0d47a1, #1976d2)",
                       color: "white",
-                      borderRadius: "25px",
-                      padding: "0.5rem 1.2rem",
-                      fontWeight: "600",
-                      textDecoration: "none",
-                      boxShadow: "0 4px 12px rgba(106, 17, 203, 0.4)",
-                      transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      position: "relative",
-                      overflow: "hidden",
-                      fontSize: "0.9rem"
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundPosition = "right center";
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = "0 6px 16px rgba(106, 17, 203, 0.6)";
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundPosition = "left center";
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.boxShadow = "0 4px 12px rgba(106, 17, 203, 0.4)";
+                      border: "none",
                     }}
                   >
-                    <i className="bi bi-box-arrow-in-right" style={{ fontSize: "1rem" }}></i>
-                    <span>Login</span>
-                    <span style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                      background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)",
-                      transform: "translateX(-100%)",
-                      transition: "transform 0.6s ease"
-                    }} 
-                    onMouseOver={(e) => {
-                      e.target.style.transform = "translateX(100%)";
-                    }}></span>
+                    Login
                   </Link>
                 )}
               </li>

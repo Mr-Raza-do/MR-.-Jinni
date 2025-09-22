@@ -58,16 +58,16 @@ export default function CartPage() {
           style={{ minHeight: "60vh" }}
         >
           {/* ✅ Empty cart illustration */}
-        <img
-  src="/images/emp.png"
-  alt="Empty cart"
-  className="mb-3 img-fluid"
-  style={{
-    maxWidth: "220px",
-    animation: "bounce 2s infinite",
-    filter: "drop-shadow(0 0 12px rgba(13,110,253,0.4))",
-  }}
-/>  
+          <img
+            src="/images/emp.png"
+            alt="Empty cart"
+            className="mb-3 img-fluid"
+             style={{
+            maxWidth: "220px",
+            animation: "bounce 2s infinite",
+            filter: "drop-shadow(0 0 12px rgba(13,110,253,0.4))",
+          }}
+            />  
 
           <h4 className="text-muted mb-2">Your cart is empty</h4>
           <p className="text-secondary mb-3">
