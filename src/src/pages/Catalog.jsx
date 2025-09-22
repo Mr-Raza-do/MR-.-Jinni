@@ -110,7 +110,8 @@ export default function Catalog({ searchQuery }) {
           style={{
             display: "grid",
             gap: "20px",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gridTemplateColumns: "repeat(3, 1fr)", // ✅ Always 3 cards
+            overflowX: "auto", // ✅ Scroll if too small
           }}
         >
           {filteredProducts.map((p) => (

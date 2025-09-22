@@ -11,7 +11,7 @@ export default function Home() {
     { id: 103, name: "Backpack", price: 1500, image: "/images/bag.jpeg" },
     { id: 104, name: "Sneakers", price: 3000, image: "/images/sneakers.jpeg" },
     { id: 105, name: "Smart Watch", price: 7500, image: "/images/watch.jpeg" },
-    { id: 106, name: "Headphones", price: 2000, image: "/images/headphones.jpeg" }
+    { id: 106, name: "Headphones", price: 2000, image: "/images/headphones.jpeg" },
   ];
 
   const testimonials = [
@@ -21,7 +21,6 @@ export default function Home() {
       rating: 5,
       comment:
         "The smartphone I bought exceeded my expectations! The delivery was super fast and the product quality is outstanding.",
-      image: "/images/customer1.jpg",
     },
     {
       id: 2,
@@ -29,7 +28,6 @@ export default function Home() {
       rating: 4,
       comment:
         "Great shopping experience! The wireless earbuds are amazing with crystal clear sound quality. Will definitely shop again.",
-      image: "/images/customer2.jpg",
     },
     {
       id: 3,
@@ -37,7 +35,6 @@ export default function Home() {
       rating: 5,
       comment:
         "This is my go-to store for all electronics. Their customer service is exceptional and products are always genuine.",
-      image: "/images/customer3.jpg",
     },
     {
       id: 4,
@@ -45,7 +42,6 @@ export default function Home() {
       rating: 5,
       comment:
         "The deals section has amazing offers! I got my smartwatch at a 30% discount. Highly recommended!",
-      image: "/images/customer4.jpg",
     },
   ];
 
@@ -58,10 +54,11 @@ export default function Home() {
         data-bs-ride="carousel"
         data-bs-interval="4000"
         style={{
-          height: "60vh",
-          maxHeight: "90vh",
+          width: "100%",
+          height: "90vh",
+          maxHeight: "100vh",
           overflow: "hidden",
-          borderRadius: "20px",
+          borderRadius: "0px",
           boxShadow: "0 8px 25px rgba(0,0,0,0.2)",
         }}
       >
@@ -95,7 +92,6 @@ export default function Home() {
               onMouseEnter={() => setHoverIndex(idx)}
               onMouseLeave={() => setHoverIndex(null)}
             >
-              {/* ✅ responsive image */}
               <img
                 src={img}
                 alt="slide"
@@ -103,11 +99,10 @@ export default function Home() {
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
-                  borderRadius: "20px",
                 }}
               />
 
-              {/* ✅ responsive button */}
+              {/* CTA Button */}
               <div className="position-absolute top-50 end-0 translate-middle-y pe-3 pe-md-5">
                 <Link
                   to="/shop"
@@ -115,10 +110,10 @@ export default function Home() {
                   style={{
                     background: "linear-gradient(45deg, #0d47a1, #1976d2)",
                     color: "white",
-                    padding: "8px 20px",
+                    padding: "10px 25px",
                     borderRadius: "50px",
                     fontWeight: "600",
-                    fontSize: "clamp(12px, 2vw, 18px)", // ✅ font size responsive
+                    fontSize: "clamp(12px, 2vw, 18px)",
                     boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
                     letterSpacing: "1px",
                     transition: "all 0.4s ease",
@@ -147,16 +142,21 @@ export default function Home() {
         >
           Featured Products
         </h2>
-        <div className="row g-4">
+        <div
+          style={{
+            display: "grid",
+            gap: "20px",
+            gridTemplateColumns: "repeat(3, 1fr)", // ✅ Always 3 products
+            overflowX: "auto",
+          }}
+        >
           {featured.map((p) => (
-            <div key={p.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
-              <ProductCard product={p} />
-            </div>
+            <ProductCard key={p.id} product={p} />
           ))}
         </div>
       </section>
 
-      {/* ✅ Customer Testimonials Section */}
+      {/* ✅ Customer Testimonials */}
       <section className="mb-5 px-3 px-md-5">
         <h2
           className="mb-4 text-center fw-bold"
@@ -175,32 +175,23 @@ export default function Home() {
                 style={{ borderRadius: "15px" }}
               >
                 <div className="card-body d-flex flex-column">
-                  {/* Rating */}
                   <div className="mb-3">
                     {[...Array(5)].map((_, i) => (
                       <i
                         key={i}
-                        className={`bi bi-star${
-                          i < testimonial.rating ? "-fill" : ""
-                        } text-warning me-1`}
+                        className={`bi bi-star${i < testimonial.rating ? "-fill" : ""} text-warning me-1`}
                       ></i>
                     ))}
                   </div>
 
-                  {/* Comment */}
                   <p className="card-text flex-grow-1 fst-italic text-muted">
                     "{testimonial.comment}"
                   </p>
 
-                  {/* Customer Info */}
                   <div className="d-flex align-items-center mt-3">
                     <div
                       className="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3"
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        overflow: "hidden",
-                      }}
+                      style={{ width: "50px", height: "50px", overflow: "hidden" }}
                     >
                       <i className="bi bi-person-fill text-white fs-4"></i>
                     </div>
@@ -225,10 +216,7 @@ export default function Home() {
             color: "white",
           }}
         >
-          <h2
-            className="fw-bold mb-3"
-            style={{ fontSize: "clamp(22px, 3vw, 32px)" }}
-          >
+          <h2 className="fw-bold mb-3" style={{ fontSize: "clamp(22px, 3vw, 32px)" }}>
             🔥 Deals of the Day
           </h2>
           <p className="fs-6 fs-md-5">
@@ -237,10 +225,7 @@ export default function Home() {
           <Link
             to="/deals"
             className="btn btn-light btn-lg px-4 fw-bold"
-            style={{
-              borderRadius: "30px",
-              fontSize: "clamp(14px, 2vw, 18px)",
-            }}
+            style={{ borderRadius: "30px", fontSize: "clamp(14px, 2vw, 18px)" }}
           >
             View Deals
           </Link>
