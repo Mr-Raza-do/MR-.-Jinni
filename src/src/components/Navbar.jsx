@@ -52,18 +52,30 @@ export default function Sidebar() {
   };
 
   return (
-    <>
-      {/* ✅ Sidebar (always visible, no dropdown) */}
-      <div
-        className="flex-column shadow-lg"
-        style={{
-          width: "250px",
-          minHeight: "100vh",
-          background: "linear-gradient(180deg, #e3f2fd, #bbdefb)",
-          borderRadius: "15px",
-          padding: "15px",
-        }}
+    <div
+      className="shadow-lg"
+      style={{
+        width: "250px",
+        minHeight: "100vh",
+        background: "linear-gradient(180deg, #e3f2fd, #bbdefb)",
+        borderRadius: "15px",
+        padding: "15px",
+      }}
+    >
+      {/* Toggle button */}
+      <button
+        className="btn btn-primary w-100 mb-3"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#categoryCollapse"
+        aria-expanded="false"
+        aria-controls="categoryCollapse"
       >
+        Close Categories
+      </button>
+
+      {/* Collapse list */}
+      <div className="collapse show" id="categoryCollapse">
         <h5
           className="fw-bold mb-4 text-center"
           style={{
@@ -92,6 +104,8 @@ export default function Sidebar() {
                       : "rgba(255,255,255,0.9)",
                   color: activeCategory === normCat ? "#fff" : "#0d47a1",
                 }}
+                data-bs-toggle="collapse"
+                data-bs-target="#categoryCollapse"
               >
                 <span className="me-2">{categoryIcons[cat] || <FaGem />}</span>
                 {cat}
@@ -100,6 +114,6 @@ export default function Sidebar() {
           })}
         </ul>
       </div>
-    </>
+    </div>
   );
 }
